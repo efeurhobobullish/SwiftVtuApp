@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<resources>
+  <color name="colorPrimary">#333333</color>
+  <color name="statusBarBackground">#00040b</color>
+  <color name="titleTextColor">#ffffff</color>
+  <color name="colorAccent">#ffffff</color>
+  <color name="colorBackground">#333333</color>
+  <color name="drawerArrow">#ffffff</color>
+  <color name="sidebarForeground">#ffffff</color>
+  <color name="sidebarBackground">#333333</color>
+  <color name="sidebarSeparatorColor">#666666</color>
+  <color name="sidebarHighlight">#ffffff</color>
+  <color name="tabBarBackground">#2563ea</color>
+  <color name="tabBarTextColor">#2563ea</color>
+  <color name="tabBarIndicator">#2563ea</color>
+  <color name="swipe_nav_background">#2563ea</color>
+  <color name="swipe_nav_inactive">#ffffff</color>
+  <color name="swipe_nav_active">#ffffff</color>
+  <color name="pull_to_refresh_color">#ffffff</color>
+  <color name="splash_background">#ffffff</color>
+  <color name="progress_indicator">#2563ea</color>
+  <color name="systemNavBarBackground">#00040b</color>
+</resources>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SwiftVtu - Offline</title>
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M13 2L4 14H11L11 22L20 10H13L13 2Z' fill='%232563EA' fill-opacity='0.9'/><path d='M10.5 6.5L7 12H10.5L9.5 17.5L13 12H9.5L10.5 6.5Z' fill='white'/></svg>" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563EA',
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    /* iOS-inspired Offline Page Styles */
+    .offline-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .ios-logo-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+      animation: bounce 1.5s infinite alternate;
+    }
+    
+    .ios-logo-background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #2563EA;
+      border-radius: 24px;
+      opacity: 0.1;
+    }
+    
+    .ios-logo {
+      width: 80px;
+      height: 80px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-15px); }
+    }
+    
+    .offline-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+    
+    .offline-message {
+      font-size: 16px;
+      color: #6b7280;
+      margin-bottom: 2rem;
+      max-width: 300px;
+    }
+    
+    .retry-button {
+      background-color: #2563EA;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: 500;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 234, 0.1), 0 2px 4px -1px rgba(37, 99, 234, 0.06);
+    }
+    
+    .retry-button:hover {
+      background-color: #1d4ed8;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(37, 99, 234, 0.1), 0 4px 6px -2px rgba(37, 99, 234, 0.05);
+    }
+    
+    .retry-button:active {
+      transform: translateY(0);
+    }
+    
+    .connection-animation {
+      position: relative;
+      width: 200px;
+      height: 40px;
+      margin: 2rem 0;
+    }
+    
+    .connection-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #e5e7eb;
+      transform: translateY(-50%);
+    }
+    
+    .connection-dots {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+    
+    .connection-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #e5e7eb;
+    }
+    
+    .connection-active {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 4px;
+      background-color: #2563EA;
+      transform: translateY(-50%);
+      border-radius: 2px;
+      animation: connectionProgress 2s infinite ease-in-out;
+    }
+    
+    @keyframes connectionProgress {
+      0% { width: 0; left: 0; opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { width: 100%; left: 0; opacity: 0; }
+    }
+    
+    .wifi-icon {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .wifi-circle {
+      position: absolute;
+      border: 2px solid #e5e7eb;
+      border-top-color: transparent;
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: wifiPulse 2s infinite ease-in-out;
+    }
+    
+    .wifi-circle:nth-child(1) {
+      width: 60px;
+      height: 60px;
+      top: 0;
+      left: 0;
+      animation-delay: 0.1s;
+    }
+    
+    .wifi-circle:nth-child(2) {
+      width: 40px;
+      height: 40px;
+      top: 10px;
+      left: 10px;
+      animation-delay: 0.2s;
+    }
+    
+    .wifi-circle:nth-child(3) {
+      width: 20px;
+      height: 20px;
+      top: 20px;
+      left: 20px;
+      animation-delay: 0.3s;
+    }
+    
+    .wifi-circle:nth-child(4) {
+      width: 6px;
+      height: 6px;
+      top: 27px;
+      left: 27px;
+      background-color: #e5e7eb;
+      border: none;
+      animation: wifiDotPulse 2s infinite ease-in-out;
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes wifiPulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; border-color: #2563EA; }
+      100% { opacity: 0.3; }
+    }
+    
+    @keyframes wifiDotPulse {
+      0% { opacity: 0.3; background-color: #e5e7eb; }
+      50% { opacity: 1; background-color: #2563EA; }
+      100% { opacity: 0.3; background-color: #e5e7eb; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+  <!-- iOS-inspired Offline Page -->
+  <div class="offline-container">
+    <div class="ios-logo-container">
+      <div class="ios-logo-background"></div>
+      <div class="ios-logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 2L4 14H11L11 22L20 10H13L13 2Z" fill="#2563EA" fill-opacity="0.9"/>
+          <path d="M10.5 6.5L7 12H10.5L9.5 17.5L13 12H9.5L10.5 6.5Z" fill="white"/>
+        </svg>
+      </div>
+    </div>
+    
+    <div class="wifi-icon">
+      <div class="wifi-circle"></div>
+      <div class="wifi-circle"></div>
+      <div class="wifi-circle"></div>
+      <div class="wifi-circle"></div>
+    </div>
+    
+    <h1 class="offline-title">No Internet Connection</h1>
+    <p class="offline-message">SwiftVtu requires an internet connection to process transactions. Please check your connection and try again.</p>
+    
+    <div class="connection-animation">
+      <div class="connection-line"></div>
+      <div class="connection-dots">
+        <div class="connection-dot"></div>
+        <div class="connection-dot"></div>
+        <div class="connection-dot"></div>
+        <div class="connection-dot"></div>
+        <div class="connection-dot"></div>
+      </div>
+      <div class="connection-active"></div>
+    </div>
+    
+    <button id="retryButton" class="retry-button">
+      <i class="fas fa-sync-alt mr-2"></i> Retry Connection
+    </button>
+  </div>
+
+  <script>
+    // Retry connection button functionality
+    const retryButton = document.getElementById('retryButton');
+    
+    retryButton.addEventListener('click', () => {
+      // Show loading state
+      retryButton.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Connecting...';
+      retryButton.disabled = true;
+      
+      // Simulate connection attempt
+      setTimeout(() => {
+        // Check if online
+        if (navigator.onLine) {
+          // If online, reload the page
+          window.location.reload();
+        } else {
+          // If still offline, show error
+          retryButton.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Retry Connection';
+          retryButton.disabled = false;
+          
+          // Show temporary error message
+          const originalText = retryButton.textContent;
+          retryButton.textContent = 'Still offline. Try again.';
+          
+          setTimeout(() => {
+            retryButton.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Retry Connection';
+          }, 2000);
+        }
+      }, 1500);
+    });
+    
+    // Automatically reload when connection is restored
+    function handleConnectionChange() {
+      if (navigator.onLine) {
+        window.location.reload();
+      }
+    }
+    
+    // Listen for connection changes
+    window.addEventListener('online', handleConnectionChange);
+    
+    // Periodically check connection status
+    setInterval(() => {
+      if (navigator.onLine) {
+        window.location.reload();
+      }
+    }, 10000);
+  </script>
+</body>
+</html>
